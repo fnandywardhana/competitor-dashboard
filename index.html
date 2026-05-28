@@ -222,10 +222,16 @@ function renderReportDetail(report, showBack) {
   h += `<div class="card"><div class="card-title">Analisis per aplikasi</div>`;
   const sorted = [...apps].sort((a,b) => (b.has_significant_update?1:0)-(a.has_significant_update?1:0));
   for (const app of sorted) {
-    const pb = app.platform === 'ios' ? '<span class="badge ios">iOS</span>' : '<span class="badge android">Android</span>';
+    // Schema baru: platforms_with_data = ["ios", "android"]
+    const plats = app.platforms_with_data || (app.platform ? [app.platform] : []);
+    const pb = plats.map(p =>
+      p === 'ios'
+        ? '<span class="badge ios">iOS</span>'
+        : '<span class="badge android">Android</span>'
+    ).join(' ');
     h += `<div class="app-item">
       <div class="app-head">
-        <span style="font-size:14px;font-weight:500">${esc(app.app_title)}${pb}</span>
+        <span style="font-size:14px;font-weight:500">${esc(app.app_title)} ${pb}</span>
         ${app.has_significant_update ? '<span class="tag ft">Update</span>' : '<span class="tag no">Tidak ada update</span>'}
       </div>`;
     if (app.has_significant_update) {

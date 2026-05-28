@@ -345,38 +345,72 @@ async function renderAppDetail(groupName) {
     if (!apps.length) return;
 
     let h = `<button class="back-btn" onclick="renderApps()">← Kembali</button>
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">${esc(groupName)}</div>`;
+    <div style="font-size:20px;font-weight:500;margin-bottom:16px">${esc(groupName)}</div>`;
 
     for (const app of apps.sort((a,b)=>a.platform.localeCompare(b.platform))) {
       const versions = [...app.versions].sort((a,b)=>
         (b.updated_on||b.captured_at||'').localeCompare(a.updated_on||a.captured_at||''));
-      const pbLabel = app.platform === 'ios' ? '📱 iOS' : '🤖 Android';
-      h += `<div class="platform-section">
-        <div class="platform-header">
-          <span class="badge ${app.platform}">${pbLabel}</span>
-          <span style="font-size:12px;color:var(--faint)">${versions.length} versi · ${app.app_id}</span>
-        </div>`;
+
+      const isIos = app.platform === 'ios';
+      const platformColor = isIos ? 'var(--purple)' : 'var(--teal)';
+      const platformBg = isIos ? 'var(--purple-bg)' : 'var(--teal-bg)';
+      const platformLabel = isIos ? '📱 iOS App Store' : '🤖 Google Play Store';
+
+      // Platform header — full width banner yang jelas membedakan section
+      h += `<div style="
+        background:${platformBg};
+        border:1px solid ${platformColor}40;
+        border-radius:var(--r);
+        margin-bottom:12px;
+        overflow:hidden;
+      ">
+        <!-- Platform banner -->
+        <div style="
+          background:${platformColor}18;
+          border-bottom:1px solid ${platformColor}30;
+          padding:12px 16px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:8px;
+        ">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="
+              font-size:13px;font-weight:600;
+              color:${platformColor};
+              letter-spacing:0.2px;
+            ">${platformLabel}</span>
+          </div>
+          <span style="font-size:11px;color:var(--faint)">${versions.length} versi · ${app.app_id}</span>
+        </div>
+
+        <!-- Version list -->
+        <div style="padding:0 16px">`;
+
       for (const v of versions) {
         const d = v.updated_on || v.captured_at;
         let notes = '';
         if (v.notes_by_lang && Object.keys(v.notes_by_lang).length > 0) {
           notes = Object.entries(v.notes_by_lang).map(([lang,txt])=>
-            `<div style="margin-top:5px"><span class="lang-pill">${lang.toUpperCase()}</span><span class="version-notes" style="display:inline">${esc(txt)}</span></div>`).join('');
+            `<div style="margin-top:6px;display:flex;gap:6px;align-items:flex-start">
+              <span class="lang-pill" style="margin-top:2px;flex-shrink:0">${lang.toUpperCase()}</span>
+              <span class="version-notes">${esc(txt)}</span>
+            </div>`).join('');
         } else {
-          notes = `<div class="version-notes">${esc(v.release_notes||'(no release notes)')}</div>`;
+          notes = `<div class="version-notes" style="margin-top:4px">${esc(v.release_notes||'(no release notes)')}</div>`;
         }
         h += `<div class="version-row">
           <div class="version-head">
-            <span class="version-num">v${esc(v.version)}</span>
+            <span class="version-num" style="color:${platformColor}">v${esc(v.version)}</span>
             <span class="version-date">${fmt(d,1)}</span>
           </div>
           ${notes}
         </div>`;
       }
-      h += `</div>`;
+
+      h += `</div></div>`; // tutup padding div + platform card div
     }
-    h += `</div>`;
+
     c().innerHTML = h;
   } catch(e) { c().innerHTML = err(e); }
 }

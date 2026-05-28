@@ -271,7 +271,7 @@ function renderRlist(items) {
   const el = document.getElementById('rlist');
   if (!items.length) { el.innerHTML='<div class="empty" style="padding:24px">Tidak ada laporan.</div>'; return; }
   el.innerHTML = items.map(r=>`
-    <div class="report-row" onclick="openReport('${r.date}')">
+    <div class="report-row" data-date="${r.date}">
       <div>
         <div class="rdlabel">${fmt(r.date)}</div>
         <div class="rmeta">${fmt(r.period_start,1)} — ${fmt(r.period_end,1)} · ${r.app_count} app</div>
@@ -279,6 +279,11 @@ function renderRlist(items) {
       </div>
       <div style="color:var(--faint);font-size:20px">›</div>
     </div>`).join('');
+
+  // Pasang event listener via data-attribute
+  el.querySelectorAll('.report-row[data-date]').forEach(row => {
+    row.addEventListener('click', () => openReport(row.dataset.date));
+  });
 }
 async function openReport(date) {
   ['latest','archive','apps','compare'].forEach(t =>
@@ -313,7 +318,7 @@ async function renderApps() {
           const totalVer = g.platforms.reduce((s,p)=>s+p.versions.length,0);
           const platBadges = g.platforms.map(p=>
             `<span class="badge ${p.platform}">${p.platform}</span>`).join(' ');
-          return `<div class="app-card" onclick="renderAppDetail(${JSON.stringify(g.name)})">
+          return `<div class="app-card" data-group="${esc(g.name)}">
             <div class="app-card-name">${esc(g.name)}</div>
             <div class="app-card-meta">
               ${platBadges}
@@ -323,6 +328,12 @@ async function renderApps() {
         }).join('')}
       </div>
     </div>`;
+
+    // Pasang event listener setelah HTML dirender
+    // (hindari onclick inline dengan string argument yang bisa clash dengan quote)
+    el.querySelectorAll('.app-card[data-group]').forEach(card => {
+      card.addEventListener('click', () => renderAppDetail(card.dataset.group));
+    });
   } catch(e) { el.innerHTML = err(e); }
 }
 

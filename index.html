@@ -6,115 +6,159 @@
 <title>Competitor Intelligence</title>
 <style>
 :root{
-  --bg:#faf9f5;--surface:#fff;--surface-alt:#f1efe8;
-  --border:rgba(0,0,0,0.1);--border-strong:rgba(0,0,0,0.18);
+  --bg:#faf9f5;--surface:#fff;--alt:#f1efe8;
+  --border:rgba(0,0,0,0.1);--border-s:rgba(0,0,0,0.18);
   --text:#1a1a18;--muted:#5f5e5a;--faint:#888780;
-  --purple:#534ab7;--purple-bg:#eeedfe;--purple-text:#3c3489;
-  --teal:#0f6e56;--teal-bg:#e1f5ee;--teal-text:#085041;
+  --purple:#534ab7;--purple-bg:#eeedfe;--purple-tx:#3c3489;
+  --teal:#0f6e56;--teal-bg:#e1f5ee;--teal-tx:#085041;
   --coral:#993c1d;--amber:#ba7517;--amber-bg:#faeeda;
   --r:12px;--rs:8px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1f1e1c;--surface:#2a2926;--surface-alt:#333230;
-    --border:rgba(255,255,255,0.1);--border-strong:rgba(255,255,255,0.22);
-    --text:#f1efe8;--muted:#b4b2a9;--faint:#888780;
-    --purple:#afa9ec;--purple-bg:#26215c;--purple-text:#afa9ec;
-    --teal:#5dcaa5;--teal-bg:#04342c;--teal-text:#5dcaa5;
-    --coral:#f0997b;--amber:#ef9f27;--amber-bg:#412402;
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1a1918;--surface:#252422;--alt:#2e2c2a;
+  --border:rgba(255,255,255,0.08);--border-s:rgba(255,255,255,0.18);
+  --text:#f1efe8;--muted:#a8a69f;--faint:#6b6a65;
+  --purple:#afa9ec;--purple-bg:#26215c;--purple-tx:#cecbf6;
+  --teal:#5dcaa5;--teal-bg:#04342c;--teal-tx:#9fe1cb;
+  --coral:#f0997b;--amber:#ef9f27;--amber-bg:#412402;
+}}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:24px;max-width:1080px;margin:0 auto}
-h1{font-size:22px;font-weight:500}
-h2{font-size:18px;font-weight:500}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px}
+h1{font-size:21px;font-weight:500}
+h2{font-size:17px;font-weight:500}
 h3{font-size:15px;font-weight:500}
-button{font-family:inherit;font-size:13px;padding:6px 14px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-strong);border-radius:var(--rs);cursor:pointer}
-button:hover{background:var(--surface-alt)}
-button.active{background:var(--purple);color:#fff;border-color:var(--purple)}
-select{font-family:inherit;font-size:13px;padding:6px 10px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-strong);border-radius:var(--rs)}
-.hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:8px}
-.sub{font-size:13px;color:var(--muted);margin-bottom:20px}
-.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:14px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.metric{background:var(--surface-alt);border-radius:var(--rs);padding:14px}
-.metric-label{font-size:12px;color:var(--muted);margin-bottom:4px}
-.metric-value{font-size:22px;font-weight:500}
+p{font-size:14px}
+a{color:var(--purple);text-decoration:none}
+
+/* Nav */
+.nav{position:sticky;top:0;background:var(--bg);border-bottom:0.5px solid var(--border);padding:12px 16px;z-index:99;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.nav-title{font-size:16px;font-weight:500}
+.nav-sub{font-size:11px;color:var(--faint)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{white-space:nowrap;font-family:inherit;font-size:13px;padding:6px 14px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-s);border-radius:20px;cursor:pointer;transition:background .15s,color .15s;flex-shrink:0}
+.tabs button:hover{background:var(--alt)}
+.tabs button.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+
+/* Cards */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.card-title{font-size:15px;font-weight:500;margin-bottom:12px}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+@media(min-width:480px){.metrics{grid-template-columns:repeat(4,1fr)}}
+.metric{background:var(--alt);border-radius:var(--rs);padding:12px}
+.metric-label{font-size:11px;color:var(--muted);margin-bottom:3px}
+.metric-value{font-size:21px;font-weight:500}
 .metric-sub{font-size:11px;color:var(--faint);margin-top:2px}
-.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--rs)}
-.tag.feature{background:var(--purple-bg);color:var(--purple-text)}
-.tag.enhancement{background:var(--teal-bg);color:var(--teal-text)}
-.tag.other{background:var(--surface-alt);color:var(--muted)}
-.period-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.period-label{font-size:13px;color:var(--muted)}
-.report-list{}
-.report-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--border);cursor:pointer;gap:8px}
-.report-row:last-child{border-bottom:none}
-.report-row:hover .report-date{color:var(--purple)}
-.report-date{font-size:14px;font-weight:500;transition:color .15s}
-.report-meta{font-size:12px;color:var(--muted)}
-.report-movers{display:flex;gap:6px;flex-wrap:wrap}
-.mover-pill{font-size:11px;padding:2px 8px;background:var(--surface-alt);border-radius:var(--rs);color:var(--muted)}
-.app-list{}
+
+/* Tags */
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px}
+.tag.ft{background:var(--purple-bg);color:var(--purple-tx)}
+.tag.en{background:var(--teal-bg);color:var(--teal-tx)}
+.tag.no{background:var(--alt);color:var(--muted)}
+.badge{font-size:10px;padding:1px 7px;border-radius:20px;background:var(--alt);color:var(--muted);margin-left:5px;vertical-align:middle}
+.badge.ios{background:var(--purple-bg);color:var(--purple-tx)}
+.badge.android{background:var(--teal-bg);color:var(--teal-tx)}
+
+/* App grid */
+.app-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:400px){.app-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:700px){.app-grid{grid-template-columns:repeat(3,1fr)}}
+.app-card{background:var(--alt);border-radius:var(--rs);padding:14px;cursor:pointer;border:0.5px solid transparent;transition:border-color .15s}
+.app-card:hover,.app-card:active{border-color:var(--border-s)}
+.app-card-name{font-size:14px;font-weight:500;margin-bottom:4px}
+.app-card-meta{font-size:11px;color:var(--faint);display:flex;gap:6px;flex-wrap:wrap}
+
+/* App detail */
+.platform-section{margin-bottom:14px}
+.platform-section:last-child{margin-bottom:0}
+.platform-header{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.version-row{padding:10px 0;border-bottom:0.5px solid var(--border)}
+.version-row:last-child{border-bottom:none}
+.version-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.version-num{font-size:14px;font-weight:500}
+.version-date{font-size:11px;color:var(--faint);white-space:nowrap}
+.version-notes{font-size:13px;color:var(--muted);white-space:pre-wrap;line-height:1.5}
+.lang-pill{font-size:10px;padding:1px 6px;border-radius:20px;background:var(--purple-bg);color:var(--purple-tx);margin-right:4px;display:inline-block;margin-bottom:2px}
+
+/* Report detail */
 .app-item{padding:14px 0;border-bottom:0.5px solid var(--border)}
 .app-item:last-child{border-bottom:none}
-.app-header{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px}
-.app-name{font-size:15px;font-weight:500}
-.platform-badge{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--surface-alt);color:var(--muted);margin-left:6px}
-.no-update{color:var(--faint);font-size:13px;font-style:italic}
-.signal-box{background:var(--surface-alt);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--text);margin-top:8px;line-height:1.5}
-.implication{font-size:12px;color:var(--purple-text);margin-top:6px}
-.feature-list{margin-top:6px;display:flex;flex-direction:column;gap:4px}
-.feature-item{font-size:13px;color:var(--muted);padding-left:8px;border-left:2px solid var(--border)}
-.feature-item.feature{border-left-color:var(--purple)}
-.feature-item.enhancement{border-left-color:var(--teal)}
-.pattern-box{background:var(--amber-bg);border-radius:var(--rs);padding:12px 14px;font-size:13px;color:var(--text);line-height:1.6;border-left:3px solid var(--amber)}
-.back{margin-bottom:14px;font-size:13px}
-.loading,.empty{text-align:center;padding:48px;color:var(--muted);font-size:14px}
-.err{text-align:center;padding:48px;color:var(--coral);font-size:14px}
-@media(max-width:640px){.metrics{grid-template-columns:repeat(2,1fr)};body{padding:14px}}
+.app-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.feature-list{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.feature-item{font-size:13px;color:var(--muted);padding:6px 10px;border-left:2px solid var(--border);border-radius:0 var(--rs) var(--rs) 0;background:var(--alt)}
+.feature-item.ft{border-left-color:var(--purple)}
+.feature-item.en{border-left-color:var(--teal)}
+.signal{background:var(--alt);border-radius:var(--rs);padding:10px 12px;font-size:13px;margin-top:8px;line-height:1.5}
+.implication{font-size:12px;color:var(--purple-tx);margin-top:5px}
+.pattern{background:var(--amber-bg);border-radius:var(--rs);padding:12px;font-size:13px;line-height:1.6;border-left:3px solid var(--amber)}
+
+/* Archive */
+.report-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:0.5px solid var(--border);cursor:pointer;gap:8px}
+.report-row:last-child{border-bottom:none}
+.report-row:active .rdlabel{color:var(--purple)}
+.rdlabel{font-size:14px;font-weight:500;transition:color .15s}
+.rmeta{font-size:12px;color:var(--muted);margin-top:2px}
+.pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.pill{font-size:11px;padding:2px 8px;background:var(--alt);border-radius:20px;color:var(--muted)}
+
+/* Filter bar */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fbar select{font-family:inherit;font-size:13px;padding:6px 10px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-s);border-radius:var(--rs)}
+.fbar button{font-family:inherit;font-size:13px;padding:6px 14px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-s);border-radius:var(--rs);cursor:pointer}
+.fbar button:hover{background:var(--alt)}
+
+/* Compare */
+.cmp-grid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:480px){.cmp-grid{grid-template-columns:1fr 1fr}}
+.cmp-card{background:var(--alt);border-radius:var(--rs);padding:14px}
+.cmp-val{font-size:18px;font-weight:500}
+
+/* Back btn */
+.back-btn{font-family:inherit;font-size:13px;padding:7px 14px;background:var(--surface);color:var(--text);border:0.5px solid var(--border-s);border-radius:var(--rs);cursor:pointer;margin-bottom:14px}
+.back-btn:hover{background:var(--alt)}
+
+/* States */
+.loading,.empty{text-align:center;padding:48px 16px;color:var(--muted);font-size:14px}
+.err{text-align:center;padding:48px 16px;color:var(--coral);font-size:14px}
 </style>
 </head>
 <body>
 
-<div class="hdr">
-  <h1>Competitor Intelligence</h1>
-  <span id="last-update" style="font-size:13px;color:var(--faint)"></span>
-</div>
-<div class="sub">Banking apps Indonesia · iOS + Android · diperbarui mingguan</div>
-
-<div class="tabs">
-  <button id="tab-latest" class="active" onclick="showTab('latest')">Terbaru</button>
-  <button id="tab-archive" onclick="showTab('archive')">Arsip laporan</button>
-  <button id="tab-apps" onclick="showTab('apps')">Per aplikasi</button>
-  <button id="tab-compare" onclick="showTab('compare')">Bandingkan</button>
+<div class="nav">
+  <div>
+    <div class="nav-title">Competitor Intelligence</div>
+    <div class="nav-sub" id="last-update">Banking apps Indonesia</div>
+  </div>
 </div>
 
-<div id="content"><div class="loading">Memuat data...</div></div>
+<div class="wrap">
+  <div class="tabs" style="margin-bottom:16px">
+    <button id="tab-latest" class="active" onclick="showTab('latest')">Terbaru</button>
+    <button id="tab-archive" onclick="showTab('archive')">Arsip</button>
+    <button id="tab-apps" onclick="showTab('apps')">Per aplikasi</button>
+    <button id="tab-compare" onclick="showTab('compare')">Bandingkan</button>
+  </div>
+  <div id="content"><div class="loading">Memuat data...</div></div>
+</div>
 
 <script>
-let INDEX = [];
-let REPORTS = {};
-let HISTORY = null;
-
+let INDEX = [], REPORTS = {}, HISTORY = null;
 const API = '/api';
 
-async function fetchJSON(path) {
+async function get(path) {
   const r = await fetch(API + path);
   if (!r.ok) throw new Error('HTTP ' + r.status);
   return r.json();
 }
-
-async function getReport(date) {
-  if (!REPORTS[date]) {
-    REPORTS[date] = await fetchJSON('/report/' + date);
-  }
-  return REPORTS[date];
+async function getReport(d) {
+  if (!REPORTS[d]) REPORTS[d] = await get('/report/' + d);
+  return REPORTS[d];
 }
-
 async function getHistory() {
-  if (!HISTORY) HISTORY = await fetchJSON('/history');
+  if (!HISTORY) HISTORY = await get('/history');
   return HISTORY;
 }
 
@@ -122,374 +166,275 @@ function esc(s) {
   if (s == null) return '';
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
-function fmtDate(iso) {
+function fmt(iso, short) {
   if (!iso) return '?';
-  try { return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}); }
-  catch { return iso; }
-}
-
-function fmtShort(iso) {
-  if (!iso) return '?';
-  try { return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); }
-  catch { return iso; }
-}
-
-function showTab(tab) {
-  ['latest','archive','apps','compare'].forEach(t => {
-    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
-  });
-  if (tab === 'latest') renderLatest();
-  else if (tab === 'archive') renderArchive();
-  else if (tab === 'apps') renderApps();
-  else if (tab === 'compare') renderCompare();
-}
-
-async function renderLatest() {
-  const el = document.getElementById('content');
-  if (!INDEX.length) { el.innerHTML = '<div class="empty">Belum ada laporan tersedia.</div>'; return; }
   try {
-    const report = await getReport(INDEX[0].date);
-    renderReportDetail(report, false);
-  } catch(e) {
-    el.innerHTML = '<div class="err">Gagal memuat laporan: '+esc(e.message)+'</div>';
-  }
+    return new Date(iso).toLocaleDateString('id-ID',
+      short ? {day:'numeric',month:'short',year:'numeric'}
+             : {day:'numeric',month:'long',year:'numeric'});
+  } catch { return iso; }
+}
+
+function showTab(t) {
+  ['latest','archive','apps','compare'].forEach(x =>
+    document.getElementById('tab-'+x).classList.toggle('active', x === t));
+  const fn = {latest:renderLatest,archive:renderArchive,apps:renderApps,compare:renderCompare};
+  fn[t]();
+}
+
+/* ── TERBARU ── */
+async function renderLatest() {
+  const el = c();
+  if (!INDEX.length) { el.innerHTML = '<div class="empty">Belum ada laporan.</div>'; return; }
+  try {
+    const r = await getReport(INDEX[0].date);
+    renderReportDetail(r, false);
+  } catch(e) { el.innerHTML = err(e); }
 }
 
 function renderReportDetail(report, showBack) {
-  const el = document.getElementById('content');
-  const analysis = report.analysis || {};
-  const apps = analysis.apps || [];
-  const significant = apps.filter(a => a.has_significant_update);
-  const features = apps.reduce((acc, a) => acc + (a.new_features||[]).length, 0);
-  const enh = apps.reduce((acc, a) => acc + (a.enhancements||[]).length, 0);
+  const el = c();
+  const an = report.analysis || {};
+  const apps = an.apps || [];
+  const sig = apps.filter(a => a.has_significant_update);
+  const feat = apps.reduce((s,a) => s+(a.new_features||[]).length,0);
+  const enh  = apps.reduce((s,a) => s+(a.enhancements||[]).length,0);
 
-  let html = '';
-  if (showBack) html += `<div class="back"><button onclick="showTab('archive')">← Kembali ke arsip</button></div>`;
+  let h = '';
+  if (showBack) h += `<button class="back-btn" onclick="showTab('archive')">← Kembali</button>`;
 
-  html += `
-    <div style="margin-bottom:6px;font-size:13px;color:var(--muted)">
-      Periode: ${fmtShort(report.period_start)} — ${fmtShort(report.period_end)}
-    </div>
-    <div class="metrics">
-      <div class="metric">
-        <div class="metric-label">Aplikasi dipantau</div>
-        <div class="metric-value">${report.app_count}</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Ada update signifikan</div>
-        <div class="metric-value">${significant.length}</div>
-        <div class="metric-sub">dari ${apps.length} app dianalisis</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Fitur baru</div>
-        <div class="metric-value">${features}</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Enhancement</div>
-        <div class="metric-value">${enh}</div>
-      </div>
-    </div>
-  `;
+  h += `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">
+    Periode: ${fmt(report.period_start,1)} — ${fmt(report.period_end,1)}
+  </div>
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">App dipantau</div><div class="metric-value">${report.app_count}</div></div>
+    <div class="metric"><div class="metric-label">Ada update</div><div class="metric-value">${sig.length}</div><div class="metric-sub">dari ${apps.length} dianalisis</div></div>
+    <div class="metric"><div class="metric-label">Fitur baru</div><div class="metric-value">${feat}</div></div>
+    <div class="metric"><div class="metric-label">Enhancement</div><div class="metric-value">${enh}</div></div>
+  </div>`;
 
-  if (analysis.cross_pattern) {
-    html += `<div class="card">
-      <h3 style="margin-bottom:8px">🔭 Pattern minggu ini</h3>
-      <div class="pattern-box">${esc(analysis.cross_pattern)}</div>
-      ${analysis.industry_direction ? `<div style="font-size:13px;color:var(--muted);margin-top:8px;font-style:italic">${esc(analysis.industry_direction)}</div>` : ''}
-    </div>`;
-  }
+  if (an.cross_pattern) h += `<div class="card">
+    <div class="card-title">🔭 Pattern minggu ini</div>
+    <div class="pattern">${esc(an.cross_pattern)}</div>
+    ${an.industry_direction ? `<div style="font-size:12px;color:var(--muted);margin-top:8px;font-style:italic">${esc(an.industry_direction)}</div>`:''}
+  </div>`;
 
-  html += `<div class="card"><h3 style="margin-bottom:14px">Analisis per aplikasi</h3><div class="app-list">`;
-
-  // Tampilkan yang significant dulu, lalu yang tidak
-  const sorted = [...apps].sort((a,b) => (b.has_significant_update ? 1 : 0) - (a.has_significant_update ? 1 : 0));
+  h += `<div class="card"><div class="card-title">Analisis per aplikasi</div>`;
+  const sorted = [...apps].sort((a,b) => (b.has_significant_update?1:0)-(a.has_significant_update?1:0));
   for (const app of sorted) {
-    const pBadge = app.platform === 'ios' ? 'iOS' : 'Android';
-    html += `<div class="app-item">
-      <div class="app-header">
-        <span class="app-name">${esc(app.app_title)}<span class="platform-badge">${pBadge}</span></span>
-        ${app.has_significant_update ? '<span class="tag feature">Ada update</span>' : '<span class="tag other">Tidak ada update signifikan</span>'}
+    const pb = app.platform === 'ios' ? '<span class="badge ios">iOS</span>' : '<span class="badge android">Android</span>';
+    h += `<div class="app-item">
+      <div class="app-head">
+        <span style="font-size:14px;font-weight:500">${esc(app.app_title)}${pb}</span>
+        ${app.has_significant_update ? '<span class="tag ft">Update</span>' : '<span class="tag no">Tidak ada update</span>'}
       </div>`;
+    if (app.has_significant_update) {
+      const all = (app.new_features||[]).map(x=>({t:x,c:'ft',l:'Fitur baru'}))
+        .concat((app.enhancements||[]).map(x=>({t:x,c:'en',l:'Enhancement'})))
+        .concat((app.notable_fixes||[]).map(x=>({t:x,c:'',l:'Fix penting'})));
+      if (all.length) h += `<div class="feature-list">${all.map(f=>`<div class="feature-item ${f.c}"><span class="tag ${f.c}" style="margin-right:6px">${f.l}</span>${esc(f.t)}</div>`).join('')}</div>`;
+      if (app.strategic_signal) h += `<div class="signal">🎯 ${esc(app.strategic_signal)}${app.implication?`<div class="implication">💡 ${esc(app.implication)}</div>`:''}</div>`;
+    }
+    h += `</div>`;
+  }
+  h += `</div>`;
+  el.innerHTML = h;
+}
 
-    if (!app.has_significant_update) {
-      html += `</div>`;
-      continue;
+/* ── ARSIP ── */
+async function renderArchive() {
+  const el = c();
+  if (!INDEX.length) { el.innerHTML='<div class="empty">Belum ada laporan.</div>'; return; }
+  const years = [...new Set(INDEX.map(r=>r.date.slice(0,4)))].sort().reverse();
+  const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  el.innerHTML = `<div class="card">
+    <div class="card-title">Semua laporan mingguan</div>
+    <div class="fbar">
+      <select id="fy" onchange="filterArch()">
+        <option value="">Semua tahun</option>
+        ${years.map(y=>`<option value="${y}">${y}</option>`).join('')}
+      </select>
+      <select id="fm" onchange="filterArch()">
+        <option value="">Semua bulan</option>
+        ${months.map((m,i)=>`<option value="${String(i+1).padStart(2,'0')}">${m}</option>`).join('')}
+      </select>
+    </div>
+    <div id="rlist"></div>
+  </div>`;
+  renderRlist(INDEX);
+}
+function filterArch() {
+  const y=document.getElementById('fy').value, m=document.getElementById('fm').value;
+  renderRlist(INDEX.filter(r=>(!y||r.date.startsWith(y))&&(!m||r.date.slice(5,7)===m)));
+}
+function renderRlist(items) {
+  const el = document.getElementById('rlist');
+  if (!items.length) { el.innerHTML='<div class="empty" style="padding:24px">Tidak ada laporan.</div>'; return; }
+  el.innerHTML = items.map(r=>`
+    <div class="report-row" onclick="openReport('${r.date}')">
+      <div>
+        <div class="rdlabel">${fmt(r.date)}</div>
+        <div class="rmeta">${fmt(r.period_start,1)} — ${fmt(r.period_end,1)} · ${r.app_count} app</div>
+        ${(r.top_movers||[]).length?`<div class="pills">${r.top_movers.slice(0,4).map(m=>`<span class="pill">${esc(m)}</span>`).join('')}</div>`:''}
+      </div>
+      <div style="color:var(--faint);font-size:20px">›</div>
+    </div>`).join('');
+}
+async function openReport(date) {
+  ['latest','archive','apps','compare'].forEach(t =>
+    document.getElementById('tab-'+t).classList.toggle('active', t === 'archive'));
+  c().innerHTML='<div class="loading">Memuat...</div>';
+  try { renderReportDetail(await getReport(date), true); }
+  catch(e) { c().innerHTML = err(e); }
+}
+
+/* ── PER APLIKASI (grouped by name) ── */
+async function renderApps() {
+  const el = c();
+  try {
+    const history = await getHistory();
+    const rawApps = history.apps || [];
+    if (!rawApps.length) { el.innerHTML='<div class="empty">Belum ada data.</div>'; return; }
+
+    // Group by app name — kalau iOS dan Android punya nama yang sama, gabungkan
+    const groups = {};
+    for (const app of rawApps) {
+      const name = app.app_title || app.app_id;
+      if (!groups[name]) groups[name] = { name, platforms: [] };
+      groups[name].platforms.push(app);
     }
 
-    const allFeatures = (app.new_features || []).map(f => ({text: f, type: 'feature'}))
-      .concat((app.enhancements || []).map(e => ({text: e, type: 'enhancement'})))
-      .concat((app.notable_fixes || []).map(f => ({text: f, type: 'other'})));
+    const sorted = Object.values(groups).sort((a,b) => a.name.localeCompare(b.name));
 
-    if (allFeatures.length) {
-      html += `<div class="feature-list">`;
-      for (const f of allFeatures) {
-        const label = f.type === 'feature' ? 'Fitur baru' : f.type === 'enhancement' ? 'Enhancement' : 'Fix penting';
-        html += `<div class="feature-item ${f.type}">
-          <span class="tag ${f.type}" style="margin-right:6px;margin-bottom:2px">${label}</span>${esc(f.text)}
+    el.innerHTML = `<div class="card">
+      <div class="card-title">Semua aplikasi</div>
+      <div class="app-grid">
+        ${sorted.map(g => {
+          const totalVer = g.platforms.reduce((s,p)=>s+p.versions.length,0);
+          const platBadges = g.platforms.map(p=>
+            `<span class="badge ${p.platform}">${p.platform}</span>`).join(' ');
+          return `<div class="app-card" onclick="renderAppDetail(${JSON.stringify(g.name)})">
+            <div class="app-card-name">${esc(g.name)}</div>
+            <div class="app-card-meta">
+              ${platBadges}
+              <span>${totalVer} versi</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  } catch(e) { el.innerHTML = err(e); }
+}
+
+async function renderAppDetail(groupName) {
+  c().innerHTML='<div class="loading">Memuat...</div>';
+  try {
+    const history = await getHistory();
+    const apps = (history.apps||[]).filter(a=>(a.app_title||a.app_id)===groupName);
+    if (!apps.length) return;
+
+    let h = `<button class="back-btn" onclick="renderApps()">← Kembali</button>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">${esc(groupName)}</div>`;
+
+    for (const app of apps.sort((a,b)=>a.platform.localeCompare(b.platform))) {
+      const versions = [...app.versions].sort((a,b)=>
+        (b.updated_on||b.captured_at||'').localeCompare(a.updated_on||a.captured_at||''));
+      const pbLabel = app.platform === 'ios' ? '📱 iOS' : '🤖 Android';
+      h += `<div class="platform-section">
+        <div class="platform-header">
+          <span class="badge ${app.platform}">${pbLabel}</span>
+          <span style="font-size:12px;color:var(--faint)">${versions.length} versi · ${app.app_id}</span>
+        </div>`;
+      for (const v of versions) {
+        const d = v.updated_on || v.captured_at;
+        let notes = '';
+        if (v.notes_by_lang && Object.keys(v.notes_by_lang).length > 0) {
+          notes = Object.entries(v.notes_by_lang).map(([lang,txt])=>
+            `<div style="margin-top:5px"><span class="lang-pill">${lang.toUpperCase()}</span><span class="version-notes" style="display:inline">${esc(txt)}</span></div>`).join('');
+        } else {
+          notes = `<div class="version-notes">${esc(v.release_notes||'(no release notes)')}</div>`;
+        }
+        h += `<div class="version-row">
+          <div class="version-head">
+            <span class="version-num">v${esc(v.version)}</span>
+            <span class="version-date">${fmt(d,1)}</span>
+          </div>
+          ${notes}
         </div>`;
       }
-      html += `</div>`;
+      h += `</div>`;
     }
-
-    if (app.strategic_signal) {
-      html += `<div class="signal-box">🎯 ${esc(app.strategic_signal)}
-        ${app.implication ? `<div class="implication">💡 ${esc(app.implication)}</div>` : ''}
-      </div>`;
-    }
-    html += `</div>`;
-  }
-
-  html += `</div></div>`;
-  el.innerHTML = html;
+    h += `</div>`;
+    c().innerHTML = h;
+  } catch(e) { c().innerHTML = err(e); }
 }
 
-async function renderArchive() {
-  const el = document.getElementById('content');
-  if (!INDEX.length) {
-    el.innerHTML = '<div class="empty">Belum ada laporan tersimpan.</div>';
-    return;
-  }
-
-  let html = `<div class="card">
-    <h3 style="margin-bottom:14px">Semua laporan mingguan</h3>
-    <div class="period-bar">
-      <span class="period-label">Filter:</span>
-      <select id="filter-year" onchange="filterArchive()">
-        <option value="">Semua tahun</option>
-      </select>
-      <select id="filter-month" onchange="filterArchive()">
-        <option value="">Semua bulan</option>
-      </select>
-    </div>
-    <div id="report-list" class="report-list"></div>
-  </div>`;
-  el.innerHTML = html;
-
-  // Populate filter options
-  const years = [...new Set(INDEX.map(r => r.date.slice(0,4)))].sort().reverse();
-  const yearSel = document.getElementById('filter-year');
-  years.forEach(y => yearSel.innerHTML += `<option value="${y}">${y}</option>`);
-
-  const months = [
-    'Januari','Februari','Maret','April','Mei','Juni',
-    'Juli','Agustus','September','Oktober','November','Desember'
-  ];
-  const monthSel = document.getElementById('filter-month');
-  months.forEach((m,i) => monthSel.innerHTML += `<option value="${String(i+1).padStart(2,'0')}">${m}</option>`);
-
-  renderReportList(INDEX);
-}
-
-function filterArchive() {
-  const year = document.getElementById('filter-year').value;
-  const month = document.getElementById('filter-month').value;
-  const filtered = INDEX.filter(r => {
-    if (year && !r.date.startsWith(year)) return false;
-    if (month && r.date.slice(5,7) !== month) return false;
-    return true;
-  });
-  renderReportList(filtered);
-}
-
-function renderReportList(reports) {
-  const el = document.getElementById('report-list');
-  if (!reports.length) {
-    el.innerHTML = '<div class="empty" style="padding:24px">Tidak ada laporan di periode ini.</div>';
-    return;
-  }
-  let html = '';
-  for (const r of reports) {
-    const movers = (r.top_movers || []).slice(0,4);
-    html += `
-      <div class="report-row" onclick="openReport('${r.date}')">
-        <div>
-          <div class="report-date">${fmtDate(r.date)}</div>
-          <div class="report-meta">${fmtShort(r.period_start)} — ${fmtShort(r.period_end)} · ${r.app_count} app</div>
-          ${movers.length ? `<div class="report-movers" style="margin-top:4px">${movers.map(m=>`<span class="mover-pill">${esc(m)}</span>`).join('')}</div>` : ''}
-        </div>
-        <div style="color:var(--faint);font-size:18px">›</div>
-      </div>
-    `;
-  }
-  el.innerHTML = html;
-}
-
-async function openReport(date) {
-  const el = document.getElementById('content');
-  el.innerHTML = '<div class="loading">Memuat laporan...</div>';
-  try {
-    const report = await getReport(date);
-    // Pindah ke tab latest tapi tampilkan report tertentu
-    ['latest','archive','apps','compare'].forEach(t =>
-      document.getElementById('tab-'+t).classList.toggle('active', t === 'archive')
-    );
-    renderReportDetail(report, true);
-  } catch(e) {
-    el.innerHTML = '<div class="err">Gagal memuat: '+esc(e.message)+'</div>';
-  }
-}
-
-async function renderApps() {
-  const el = document.getElementById('content');
-  try {
-    const history = await getHistory();
-    const apps = history.apps || [];
-    if (!apps.length) {
-      el.innerHTML = '<div class="empty">Belum ada data history.</div>';
-      return;
-    }
-
-    const sorted = [...apps].sort((a,b) => (a.app_title||a.app_id).localeCompare(b.app_title||b.app_id));
-    let html = `<div class="card">
-      <h3 style="margin-bottom:14px">Detail per aplikasi</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
-    `;
-    for (const app of sorted) {
-      const title = app.app_title || app.app_id;
-      html += `
-        <div style="background:var(--surface-alt);border-radius:var(--rs);padding:12px;cursor:pointer;border:0.5px solid var(--border)"
-             onclick="renderAppHistory('${app.platform}','${app.app_id.replace(/'/g,"\\'")}')">
-          <div style="font-size:14px;font-weight:500">${esc(title)}</div>
-          <div style="font-size:11px;color:var(--faint);margin-top:3px">${app.platform} · ${app.versions.length} versi</div>
-        </div>
-      `;
-    }
-    html += `</div></div>`;
-    el.innerHTML = html;
-  } catch(e) {
-    el.innerHTML = '<div class="err">Gagal memuat: '+esc(e.message)+'</div>';
-  }
-}
-
-async function renderAppHistory(platform, appId) {
-  const el = document.getElementById('content');
-  try {
-    const history = await getHistory();
-    const app = (history.apps||[]).find(a => a.platform === platform && a.app_id === appId);
-    if (!app) return;
-    const versions = [...app.versions].sort((a,b) =>
-      (b.updated_on||b.captured_at||'').localeCompare(a.updated_on||a.captured_at||''));
-    const title = app.app_title || app.app_id;
-
-    let html = `<div class="back"><button onclick="renderApps()">← Kembali</button></div>
-    <div class="card">
-      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
-        <h2>${esc(title)}</h2><span class="platform-badge">${app.platform}</span>
-      </div>
-      <div style="font-size:12px;color:var(--faint);margin-bottom:14px">${app.app_id} · ${versions.length} versi tercatat</div>
-    `;
-
-    for (const v of versions) {
-      const dateRef = v.updated_on || v.captured_at;
-      let notesHtml = '';
-      if (v.notes_by_lang && Object.keys(v.notes_by_lang).length > 0) {
-        for (const [lang, text] of Object.entries(v.notes_by_lang)) {
-          notesHtml += `<div style="margin-top:4px">
-            <span style="font-size:10px;background:var(--purple-bg);color:var(--purple-text);padding:1px 6px;border-radius:4px;margin-right:4px">${lang.toUpperCase()}</span>
-            <span style="font-size:13px;color:var(--muted)">${esc(text)}</span>
-          </div>`;
-        }
-      } else {
-        notesHtml = `<div style="font-size:13px;color:var(--muted);margin-top:4px">${esc(v.release_notes||'')}</div>`;
-      }
-      html += `
-        <div style="padding:10px 0;border-bottom:0.5px solid var(--border)">
-          <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <span style="font-size:14px;font-weight:500">v${esc(v.version)}</span>
-            <span style="font-size:12px;color:var(--faint)">${fmtShort(dateRef)}</span>
-          </div>
-          ${notesHtml}
-        </div>
-      `;
-    }
-    html += `</div>`;
-    el.innerHTML = html;
-  } catch(e) {
-    el.innerHTML = '<div class="err">Gagal: '+esc(e.message)+'</div>';
-  }
-}
-
+/* ── BANDINGKAN ── */
 async function renderCompare() {
-  const el = document.getElementById('content');
-  if (INDEX.length < 2) {
-    el.innerHTML = '<div class="empty">Minimal perlu 2 laporan untuk membandingkan.</div>';
-    return;
-  }
-
-  let opts = INDEX.map(r => `<option value="${r.date}">${fmtShort(r.date)}</option>`).join('');
-  el.innerHTML = `
-    <div class="card">
-      <h3 style="margin-bottom:14px">Bandingkan dua periode</h3>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-        <select id="cmp-a">${opts}</select>
-        <select id="cmp-b">${INDEX.length>1 ? opts.replace('<option','<option disabled').replace(INDEX[1].date+'"',INDEX[1].date+'" selected') : opts}</select>
-        <button onclick="doCompare()">Bandingkan</button>
-      </div>
-      <div id="cmp-result" style="font-size:13px;color:var(--muted)">Pilih dua periode lalu klik Bandingkan.</div>
+  const el = c();
+  if (INDEX.length < 2) { el.innerHTML='<div class="empty">Perlu minimal 2 laporan.</div>'; return; }
+  const opts = INDEX.map(r=>`<option value="${r.date}">${fmt(r.date,1)}</option>`).join('');
+  el.innerHTML = `<div class="card">
+    <div class="card-title">Bandingkan dua periode</div>
+    <div class="fbar">
+      <select id="ca">${opts}</select>
+      <select id="cb">${opts}</select>
+      <button onclick="doCompare()">Bandingkan</button>
     </div>
-  `;
-  if (INDEX.length >= 2) {
-    document.getElementById('cmp-b').value = INDEX[1].date;
-  }
+    <div id="cr" style="font-size:13px;color:var(--muted)">Pilih dua periode lalu klik Bandingkan.</div>
+  </div>`;
+  if (INDEX.length > 1) document.getElementById('cb').value = INDEX[1].date;
 }
-
 async function doCompare() {
-  const dateA = document.getElementById('cmp-a').value;
-  const dateB = document.getElementById('cmp-b').value;
-  if (!dateA || !dateB || dateA === dateB) {
-    document.getElementById('cmp-result').textContent = 'Pilih dua periode yang berbeda.';
-    return;
-  }
-  const el = document.getElementById('cmp-result');
-  el.innerHTML = '<div class="loading" style="padding:16px">Memuat...</div>';
+  const dA=document.getElementById('ca').value, dB=document.getElementById('cb').value;
+  if (!dA||!dB||dA===dB){document.getElementById('cr').textContent='Pilih dua periode berbeda.';return;}
+  document.getElementById('cr').innerHTML='<div class="loading" style="padding:16px">Memuat...</div>';
   try {
-    const [rA, rB] = await Promise.all([getReport(dateA), getReport(dateB)]);
-    const appsA = (rA.analysis?.apps||[]).filter(a=>a.has_significant_update).map(a=>a.app_title);
-    const appsB = (rB.analysis?.apps||[]).filter(a=>a.has_significant_update).map(a=>a.app_title);
-    const featA = (rA.analysis?.apps||[]).reduce((s,a)=>s+(a.new_features||[]).length,0);
-    const featB = (rB.analysis?.apps||[]).reduce((s,a)=>s+(a.new_features||[]).length,0);
-    const enhA = (rA.analysis?.apps||[]).reduce((s,a)=>s+(a.enhancements||[]).length,0);
-    const enhB = (rB.analysis?.apps||[]).reduce((s,a)=>s+(a.enhancements||[]).length,0);
-
-    el.innerHTML = `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-        ${[[rA,appsA,featA,enhA,'A'],[rB,appsB,featB,enhB,'B']].map(([r,apps,feat,enh])=>`
-          <div style="background:var(--surface-alt);border-radius:var(--rs);padding:14px">
-            <div style="font-weight:500;margin-bottom:8px">${fmtShort(r.report_date)}</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.9">
-              Fitur baru: <strong style="color:var(--purple-text)">${feat}</strong><br>
-              Enhancement: <strong style="color:var(--teal-text)">${enh}</strong><br>
-              App aktif: <strong>${apps.length}</strong><br>
-              <span style="font-size:11px">${apps.join(', ') || '-'}</span>
+    const [rA,rB] = await Promise.all([getReport(dA),getReport(dB)]);
+    const stat = r => ({
+      feat: (r.analysis?.apps||[]).reduce((s,a)=>s+(a.new_features||[]).length,0),
+      enh:  (r.analysis?.apps||[]).reduce((s,a)=>s+(a.enhancements||[]).length,0),
+      apps: (r.analysis?.apps||[]).filter(a=>a.has_significant_update).map(a=>a.app_title),
+      pat:  r.analysis?.cross_pattern||'-',
+    });
+    const sA=stat(rA), sB=stat(rB);
+    document.getElementById('cr').innerHTML = `
+      <div class="cmp-grid">
+        ${[[rA,sA],[rB,sB]].map(([r,s])=>`
+          <div class="cmp-card">
+            <div style="font-weight:500;margin-bottom:8px">${fmt(r.report_date,1)}</div>
+            <div style="font-size:13px;color:var(--muted);line-height:2">
+              Fitur baru: <span class="cmp-val" style="color:var(--purple-tx)">${s.feat}</span><br>
+              Enhancement: <span class="cmp-val" style="color:var(--teal-tx)">${s.enh}</span><br>
+              App aktif: <span class="cmp-val">${s.apps.length}</span>
             </div>
-          </div>
-        `).join('')}
+            <div style="font-size:11px;color:var(--faint);margin-top:6px">${s.apps.join(', ')||'—'}</div>
+          </div>`).join('')}
       </div>
-      <div style="font-size:12px;color:var(--faint)">
-        Pattern A: ${esc(rA.analysis?.cross_pattern||'-')}<br><br>
-        Pattern B: ${esc(rB.analysis?.cross_pattern||'-')}
-      </div>
-    `;
-  } catch(e) {
-    el.innerHTML = '<div class="err">Gagal memuat: '+esc(e.message)+'</div>';
-  }
+      <div style="font-size:12px;color:var(--faint);margin-top:12px;line-height:1.7">
+        <b>Pattern ${fmt(dA,1)}:</b> ${esc(sA.pat)}<br><br>
+        <b>Pattern ${fmt(dB,1)}:</b> ${esc(sB.pat)}
+      </div>`;
+  } catch(e) { document.getElementById('cr').innerHTML=err(e); }
 }
+
+/* ── Helpers ── */
+function c() { return document.getElementById('content'); }
+function err(e) { return `<div class="err">Gagal memuat: ${esc(e.message)}</div>`; }
 
 async function init() {
   try {
-    INDEX = await fetchJSON('/index');
-    if (INDEX.length > 0) {
+    INDEX = await get('/index');
+    if (INDEX.length) {
       document.getElementById('last-update').textContent =
-        'Terakhir diperbarui: ' + fmtShort(INDEX[0].date);
+        'Update: ' + fmt(INDEX[0].date,1) + ' · iOS + Android';
     }
     showTab('latest');
   } catch(e) {
-    document.getElementById('content').innerHTML =
-      '<div class="err">Gagal memuat data: '+esc(e.message)+'.<br>Pastikan environment variables Cloudflare sudah diset.</div>';
+    c().innerHTML = `<div class="err">Gagal memuat data: ${esc(e.message)}.<br><br>Cek environment variables Cloudflare.</div>`;
   }
 }
-
 init();
 </script>
 </body>
